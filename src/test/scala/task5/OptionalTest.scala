@@ -37,3 +37,18 @@ class OptionalTest:
     val result = Optional.map(nonEmpty, _ + 1)
     assertEquals(1, Optional.orElse(result, 1))
   }
+
+  @Test def filterShouldReturnEmptyWhenEmpty(): Unit = {
+    val empty: Optional[Int] = Optional.Empty()
+    assertTrue(Optional.isEmpty(empty))
+  }
+
+  @Test def filterShouldReturnEmptyWhenPredicateDoNotMatch(): Unit = {
+    val nonEmpty: Optional[Int] = Optional.Maybe(5)
+    assertTrue(Optional.isEmpty(Optional.filter(nonEmpty, _ > 5)))
+  }
+
+  @Test def filterShouldReturnSameOptionalWhenPredicateMatch(): Unit = {
+    val nonEmpty: Optional[Int] = Optional.Maybe(5)
+    assertEquals(nonEmpty, Optional.filter(nonEmpty, _ == 5))
+  }
